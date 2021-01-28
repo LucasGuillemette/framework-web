@@ -9,7 +9,7 @@ use Ubiquity\attributes\items\router\Post;
 class TodosController extends ControllerBase{
     #[Route('_default',name: 'home')]
 	public function index(){
-		
+		$this->displayList(['Pain','Eau']);
 	}
 
 	#[Post(path: "todos/add",name: 'todos.add')]
@@ -65,6 +65,14 @@ class TodosController extends ControllerBase{
 	#[Post(path: "todos/loadList/")]
 	public function loadListFromForm(){
 		
+	}
+
+
+	
+	private function displayList($list){
+		
+		$this->loadView('TodosController/displayList.html', ['list'=>$list]);
+
 	}
 
 }
