@@ -3,13 +3,27 @@ namespace controllers;
 use Ubiquity\attributes\items\router\Get;
 use Ubiquity\attributes\items\router\Route;
 use Ubiquity\attributes\items\router\Post;
- /**
+use Ubiquity\controllers\Router;
+use Ubiquity\utils\http\USession;
+
+/**
   * Controller TodosController
   */
 class TodosController extends ControllerBase{
+
+    const CACHE_KEY = 'datas/lists/';
+    const EMPTY_LIST_ID='not saved';
+    const LIST_SESSION_KEY='list';
+    const ACTIVE_LIST_SESSION_KEY='active-list';
+
+
     #[Route('_default',name: 'home')]
 	public function index(){
-		$this->displayList(['Pain','Eau']);
+        if(USession::exists(self::LIST_SESSION_KEY)) {
+            $list=USession::get(self::LIST_SESSION_KEY,[]);
+            return $this->displayList($list);
+        }
+        $this->showMessage('Bienvenue !','TodoList','info','info circle', [['url' =>Router::path('todos.new'),'caption'=>'Créer une nouv liste','style'=>'basic inverted']]);
 	}
 
 	#[Post(path: "todos/add",name: 'todos.add')]
@@ -72,6 +86,14 @@ class TodosController extends ControllerBase{
 	private function displayList($list){
 		
 		$this->loadView('TodosController/displayList.html', ['list'=>$list]);
+
+	}
+
+
+	
+	public function showMessage(string $header,string $message,string $type='info',string $icon='info circle',array $buttons=[]){
+		
+		$this->loadView('TodosController/showMessage.html',compact('header','type','icon','message','buttons'));
 
 	}
 
