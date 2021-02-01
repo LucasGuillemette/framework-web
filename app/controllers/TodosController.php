@@ -1,13 +1,16 @@
 <?php
 namespace controllers;
+use Ajax\php\ubiquity\JsUtils;
 use Ubiquity\attributes\items\router\Get;
 use Ubiquity\attributes\items\router\Route;
 use Ubiquity\attributes\items\router\Post;
 use Ubiquity\controllers\Router;
+use Ubiquity\utils\http\URequest;
 use Ubiquity\utils\http\USession;
 
 /**
   * Controller TodosController
+ * @property JsUtils $jquery
   */
 class TodosController extends ControllerBase{
 
@@ -28,7 +31,17 @@ class TodosController extends ControllerBase{
 
 	#[Post(path: "todos/add",name: 'todos.add')]
 	public function addElement(){
-		
+		$list=USession::get(self::LIST_SESSION_KEY);
+		if(URequest::has('element')){
+		    $elements=explode("\n",URequest::post('element'));
+		    foreach ($elements as $elem){
+		     $list[] = $elem;
+            }
+        }else{
+            $list[]=URequest::post('element');
+        }
+		USession::set(self::LIST_SESSION_KEY,$list);
+		$this->displayList($list);
 	}
 
 
@@ -66,7 +79,8 @@ class TodosController extends ControllerBase{
 
 	#[Get(path: "todos/new/{force}",name: 'dodos.new')]
 	public function newList($force = false){
-		
+        USession::set(self::LIST_SESSION_KEY,[]);
+        $this->displayList([]);
 	}
 
 
@@ -78,14 +92,17 @@ class TodosController extends ControllerBase{
 
 	#[Post(path: "todos/loadList/")]
 	public function loadListFromForm(){
-		
+
 	}
 
 
 	
 	private function displayList($list){
-		
-		$this->loadView('TodosController/displayList.html', ['list'=>$list]);
+        if(\count($list)>0){
+            $this->jquery->show('._saveList','','',false);
+        }
+        $this->jquery->change('#multiple','$("._form").toggle();');
+        $this->jquery->renderView('TodosController/displayList.html', ['list'=>$list]);
 
 	}
 
@@ -94,7 +111,7 @@ class TodosController extends ControllerBase{
 	public function showMessage(string $header,string $message,string $type='info',string $icon='info circle',array $buttons=[]){
 		
 		$this->loadView('TodosController/showMessage.html',compact('header','type','icon','message','buttons'));
-
+        
 	}
 
 }
