@@ -2,6 +2,8 @@
 namespace controllers;
 
 use models\User;
+use services\dao\OrgaRepository;
+use Ubiquity\attributes\items\di\Autowired;
 use Ubiquity\attributes\items\router\Route;
 use Ubiquity\controllers\auth\AuthController;
 use Ubiquity\controllers\auth\WithAuthTrait;
@@ -12,6 +14,9 @@ use Ubiquity\orm\DAO;
   */
 class MainController extends ControllerBase{
 use WithAuthTrait;
+
+#[Autowired]
+private OrgaRepository $repo;
 	#[Route('_default', name:'home')]
 	public function index(){
 		$this->jquery->getHref('a[data-target]', parameters:['historize'=>false,
