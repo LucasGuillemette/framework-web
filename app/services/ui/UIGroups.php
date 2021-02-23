@@ -4,7 +4,8 @@ namespace services\ui;
 use models\Group;
 
 use Ubiquity\controllers\Controller;
-use const php\ubiquity\UIService;
+use Ubiquity\controllers\Router;
+
 
  /**
   * Class UIGroups
@@ -28,7 +29,9 @@ class UIGroups extends \Ajax\php\ubiquity\UIService {
       $frm->setFields(['id','name','domain']);
       $frm->fieldAsHidden('id');
       $frm->fieldAsLabelInput('name',['rules'=>'empty']);
+      $frm->fieldAsLabelInput('domain',['rules'=>['empty','email']]);
       $frm->setValidationParams(["on"=>"blur","inline"=>true]);
-      
+      $frm->addSubmit('submit','valider','positive', Router::path('addOrga'),"#response");
+
   }
 }
