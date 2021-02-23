@@ -1,5 +1,6 @@
 <?php
 namespace controllers;
+use models\User;
 use Ubiquity\orm\DAO;
 use Ubiquity\utils\flash\FlashMessage;
 use Ubiquity\utils\http\USession;
