@@ -1,0 +1,45 @@
+<div class="ui grid">
+    <div class="four wide column">
+        <div class="ui vertical fluid inverted menu">
+            {% for section in listSection %}
+            <a href="{{ path('section', [section.id]) }}" class="ui item"> {{ section.name }}
+                <span class="ui teal left pointing label"> {{ section.products|length }}</span>
+            </a>
+            {% endfor %}
+            <br>
+        </div>
+    </div>
+    <div class="twelve wide column">
+        <fieldset>
+            <legend>Fiche produit</legend>
+            <div class="ui equal width center aligned padded grid">
+                <div class="row">
+                    <div class="column"><img src="/public/assets/img/{{ productid.image }}.jpg" alt="alternatetext" width="450" height="390"></div>
+                    <div class="column">
+                        <h2>{{ productid.name }}</h2>
+                        <div class="column">
+                            <div class="ui label">{{ productid.comments }}</div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="column">
+                                <div class="column">
+                                    <span style="color: #1B1C1D"><h1>{{productid.price}}€</h1></span>
+                                    <span style="color: red">{{ product.promotion }}</span>
+                                </div>
+                                <div class="ui vertical green labeled icon buttons">
+                                    <button class="ui button">
+                                        <i class="shopping cart icon"></i>
+                                        Buy
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ path('home') }}" class="ui vertical button">Retour vers {{ section.name }}</a>
+
+            </div>
+        </fieldset>
+    </div>
+</div>

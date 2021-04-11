@@ -1,0 +1,14 @@
+<div class="ui grid ">
+
+        <h1 style="margin-top: 200px;"> Commandes </h1>
+
+        <br>
+        <br>
+        <h1 style="margin-top: 10px; margin-left: 250px;">Non fonctionnel</h1>
+        <div class="ui attached segment">
+            {% for order in orders %}
+            <li>{{ order.dateCreation }}</li>
+            {% endfor %}
+        </div>
+    </div>
+</div>

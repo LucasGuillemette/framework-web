@@ -1,8 +1,8 @@
-<h1>Mon store</h1>
+<h1>My store</h1>
 <div class="ui grid">
     <div class="four wide column">
         <div class="ui vertical fluid inverted menu">
-            <a href="MainController/store" class="ui item">Promotions</a>
+            <a href="MainController/store" class="ui item">promotions</a>
             {% for section in listSection %}
             <a href="{{ path('section', [section.id]) }}" class="ui item"> {{ section.name }}
                 <span class="ui teal left pointing label"> {{ section.products|length }}</span>
@@ -12,11 +12,11 @@
         </div>
     </div>
     <div class="twelve wide column">
+        <h3> {{ section.name }} </h3>
         <fieldset>
-            <row>
-            <legend>Promotions</legend>
+            <legend>Produits</legend>
             <div class="ui equal width center aligned padded grid">
-                {% for prod in listProm %}
+                {% for prod in product %}
                 <div class="four wide column">
                     <a href="{{ path('product', [section.id, prod.id]) }}">
                         <img src="/public/assets/img/{{ prod.image }}.jpg" width="100" height="80" href="{{ path('product', [section.id, prod.id]) }}">
@@ -34,12 +34,7 @@
                 </div>
                 {% endfor %}
             </div>
-            </row>
-        </fieldset>
-        <fieldset>
-            <legend>Consultés récemment</legend>
-            <h5>Nom de la section</h5>
+            <center><a href=""{{ path('home') }}" class="ui vertical button">Retour vers acceuil</a></center>
         </fieldset>
     </div>
-    <a  class="ui secondary red button" style="margin-left: 13px;">Acceuil</a>
 </div>
