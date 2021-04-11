@@ -40,6 +40,7 @@ class MainController extends ControllerBase{
         $this->loadDefaultView(['order'=>$order]);
     }
 
+
     #[Route ('basket', name:'basket')]
     public function basket(){
         $basket=DAO::getAll(Basket::class, 'idUser = ?',false,[USession::get("idUser")]);
@@ -67,4 +68,7 @@ class MainController extends ControllerBase{
 
         $user = DAO::getById(User::class, USession::get("idUser"), false);
     }
+
+
+
 }
