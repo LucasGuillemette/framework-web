@@ -1,0 +1,57 @@
+<div class="ui inverted segment">
+
+    <div class="ui white segment" >
+
+        <div class="ui inverted relaxed divided list" style="">
+            <div class="item">
+                <div class="ui segment">
+                    <div class="ui grid">
+                        <div class="two wide column">
+                            <h4>N°</h4>
+                        </div>
+                        <div class="three wide column">
+                            <h4>Date</h4>
+                        </div>
+                        <div class="two wide column">
+                            <h4>Price</h4>
+                        </div>
+                        <div class="two wide column">
+                            <h4>Quantité</h4>
+                        </div>
+                        <div class="two wide column">
+                            <h4>Status</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui inverted relaxed divided list">
+                {% for order in orders %}
+                    <div class="item">
+                        <div class="ui grid">
+                            <div class="two wide column">
+                                {{ order.id }}
+                            </div>
+                            <div class="three wide column">
+                                {{ order.dateCreation }}
+                            </div>
+                            <div class="two wide column">
+                                {{ order.amount }}€
+                            </div>
+                            <div class="two wide column">
+                                {{ order.itemsNumber }}
+                            </div>
+                            <div class="wide column">
+                                {{order.status}}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+        <button class="ui inverted labeled icon button" onclick="location.href='{{ path('store.orders', [user.id]) }}'">
+            <i class="shopping bag icon"></i>
+            Voir les commandes
+        </button>
+    </div>

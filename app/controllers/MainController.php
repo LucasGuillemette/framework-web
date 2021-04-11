@@ -19,7 +19,18 @@ class MainController extends ControllerBase{
 
     #[Route ('_default', name:'home')]
     public function index(){
-        $this->loadDefaultView();
+        $nbOrders = DAO::count(Order::class, 'idUser= ?', [USession::get("idUser")]); // not count(DAO::getAll
+        $listProm = DAO::getAll(Product::class, 'promotion< ?', false, [0]);
+        $nbBaskets = DAO::count(Basket::class, 'idUser= ?', [USession::get("idUser")]);
+        $this->loadDefaultView(['nbOrders'=>$nbOrders, 'listProm'=>$listProm, 'nbBaskets'=>$nbBaskets]);
+    }
+
+    public function getRepo(): UserRepository {
+        return $this->repo;
+    }
+
+    public function setRepo(UserRepository $repo): void {
+        $this->repo = $repo;
     }
 
     protected function getAuthController(): AuthController
@@ -34,10 +45,17 @@ class MainController extends ControllerBase{
         $listPromo = DAO::getAll(Product::class, 'promotion< ?', false, [0]);
         $this->loadDefaultView(['store'=>$store,'listSection'=>$listCat, 'listProm'=>$listPromo ]);
     }
-    #[Route ('order',name:'order')]
+   /* #[Route ('order',name:'order')]
     public function order(){
         $order = DAO::getAll(Order::class, 'idUser = ?', false,[USession::get("idUser")]);
         $this->loadDefaultView(['order'=>$order]);
+    } */
+
+    #[Route ('order', name:'order')]
+    public function orders(){
+        $idUser=$this->getAuthController()->_getActiveUser()->getId();
+        $orders = DAO::getAll(Order::class, 'idUser= ?', false, [$idUser]);
+        $this->loadDefaultView(['orders'=>$orders]);
     }
 
 
@@ -65,9 +83,23 @@ class MainController extends ControllerBase{
 
     #[Route('newbasket', name:'newbasket')]
     public function newbasket(){
-
-        $user = DAO::getById(User::class, USession::get("idUser"), false);
+        $newbasket = DAO::getAll(Order::class, 'idUser= ?', false, [USession::get("idUser")]);
+        $this->loadDefaultView(['newbasket'=>$newbasket]);
     }
+
+    #[Route ('Baskets', name:'baskets')]
+    public function listBaskets(){
+        $idUser=$this->getAuthController()->_getActiveUser()->getId();
+        $baskets = DAO::getAll(Basket::class, 'idUser= ?', false, [$idUser]);
+        $nbBaskets = DAO::count(Basket::class, 'idUser= ?', [USession::get("idUser")]);
+        $BasketSession = USession::get('defaultBasket');
+        $products = $BasketSession->getProducts();
+        $quantity = $BasketSession->getQuantity();
+        $totalDiscount = $BasketSession->getTotalDiscount();
+        $fullPrice = $BasketSession->getTotalFullPrice();
+        $this->loadDefaultView(['baskets'=>$baskets, 'nbBaskets'=>$nbBaskets, 'products'=>$products, 'fullPrice'=> $fullPrice, 'totalDiscount'=>$totalDiscount, 'quantity'=>$quantity]);
+    }
+
 
 
 

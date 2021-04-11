@@ -7,8 +7,8 @@ use Ubiquity\controllers\Controller;
 /**
  * Class OrgaRepository
  */
-class OrgaRepository extends \Ubiquity\orm\repositories\ViewRepository{
+class UserRepository extends \Ubiquity\orm\repositories\ViewRepository{
     public function __construct(Controller $ctrl) {
-        parent::__construct($ctrl,Organization::class);
+        parent::__construct($ctrl,User::class);
     }
 }

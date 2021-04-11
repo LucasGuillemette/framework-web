@@ -11,77 +11,77 @@ use Ubiquity\attributes\items\JoinColumn;
 
 #[Table(name: "basket")]
 class Basket{
-	
-	#[Id()]
-	#[Column(name: "id",dbType: "int(11)")]
-	#[Validator(type: "id",constraints: ["autoinc"=>true])]
-	private $id;
 
-	
-	#[Column(name: "name",dbType: "varchar(60)")]
-	#[Validator(type: "length",constraints: ["max"=>60,"notNull"=>true])]
-	private $name;
+    #[Id()]
+    #[Column(name: "id",dbType: "int(11)")]
+    #[Validator(type: "id",constraints: ["autoinc"=>true])]
+    private $id;
 
-	
-	#[Column(name: "dateCreation",dbType: "timestamp")]
-	#[Validator(type: "notNull",constraints: [])]
-	private $dateCreation;
 
-	
-	#[OneToMany(mappedBy: "basket",className: "models\\Basketdetail")]
-	private $basketdetails;
+    #[Column(name: "name",dbType: "varchar(60)")]
+    #[Validator(type: "length",constraints: ["max"=>60,"notNull"=>true])]
+    private $name;
 
-	
-	#[ManyToOne()]
-	#[JoinColumn(className: "models\\User",name: "idUser")]
-	private $user;
 
-	public function getId(){
-		return $this->id;
-	}
+    #[Column(name: "dateCreation",dbType: "timestamp")]
+    #[Validator(type: "notNull",constraints: [])]
+    private $dateCreation;
 
-	public function setId($id){
-		$this->id=$id;
-	}
 
-	public function getName(){
-		return $this->name;
-	}
+    #[OneToMany(mappedBy: "basket",className: "models\\Basketdetail")]
+    private $basketdetails;
 
-	public function setName($name){
-		$this->name=$name;
-	}
 
-	public function getDateCreation(){
-		return $this->dateCreation;
-	}
+    #[ManyToOne()]
+    #[JoinColumn(className: "models\\User",name: "idUser")]
+    private $user;
 
-	public function setDateCreation($dateCreation){
-		$this->dateCreation=$dateCreation;
-	}
+    public function getId(){
+        return $this->id;
+    }
 
-	public function getBasketdetails(){
-		return $this->basketdetails;
-	}
+    public function setId($id){
+        $this->id=$id;
+    }
 
-	public function setBasketdetails($basketdetails){
-		$this->basketdetails=$basketdetails;
-	}
+    public function getName(){
+        return $this->name;
+    }
 
-	 public function addBasketdetail($basketdetail){
-		$this->basketdetails[]=$basketdetail;
-	}
+    public function setName($name){
+        $this->name=$name;
+    }
 
-	public function getUser(){
-		return $this->user;
-	}
+    public function getDateCreation(){
+        return $this->dateCreation;
+    }
 
-	public function setUser($user){
-		$this->user=$user;
-	}
+    public function setDateCreation($dateCreation){
+        $this->dateCreation=$dateCreation;
+    }
 
-	 public function __toString(){
-		return ($this->dateCreation??'no value').'';
-	}
+    public function getBasketdetails(){
+        return $this->basketdetails;
+    }
+
+    public function setBasketdetails($basketdetails){
+        $this->basketdetails=$basketdetails;
+    }
+
+    public function addBasketdetail($basketdetail){
+        $this->basketdetails[]=$basketdetail;
+    }
+
+    public function getUser(){
+        return $this->user;
+    }
+
+    public function setUser($user){
+        $this->user=$user;
+    }
+
+    public function __toString(){
+        return $this->name . " " . $this->dateCreation;
+    }
 
 }
